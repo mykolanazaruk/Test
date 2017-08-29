@@ -10,6 +10,9 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("commit 2");
+            Console.WriteLine("sc");
+
         }
     }
 }
