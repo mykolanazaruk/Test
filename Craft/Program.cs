@@ -15,7 +15,7 @@ namespace Craft
             using (dbContext db = new dbContext())
             {
 
-                Beer beer1 = new Beer { IPA = 16, AcContent = 12, BeerType = "Obolon" };
+                Beer beer1 = new Beer { IPA = 20, AcContent = 12, BeerType = "Obolon" };
                 Beer beer2 = new Beer { IPA = 16, AcContent = 12, BeerType = "Alle" };
 
                 db.Beers.Add(beer1);
