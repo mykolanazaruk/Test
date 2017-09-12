@@ -1,0 +1,562 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="KraftBreweryModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Відгуки про пиво">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Пиво" Type="char" MaxLength="50" Nullable="false" />
+          <Property Name="Відгук" Type="text" Nullable="false" />
+          <Property Name="Покупець" Type="text" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Пиво">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Вміст алкоголю" Type="float" Nullable="false" />
+          <Property Name="IPA" Type="int" Nullable="false" />
+          <Property Name="Тип пива" Type="char" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Пивовар">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Псевдонім" Type="char" MaxLength="20" Nullable="false" />
+          <Property Name="Дата народження" Type="date" Nullable="false" />
+          <Property Name="Роки досвіду" Type="tinyint" Nullable="false" />
+          <Property Name="Пиво" Type="char" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Покупці пива">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Назва компанії" Type="text" Nullable="false" />
+          <Property Name="Місто" Type="char" MaxLength="20" Nullable="false" />
+          <Property Name="Контактні дані" Type="text" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Список замовлень">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Пиво" Type="char" MaxLength="50" Nullable="false" />
+          <Property Name="Покупець" Type="char" MaxLength="20" />
+          <Property Name="Ціна" Type="float" Nullable="false" />
+          <Property Name="Кількість" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Типи пива">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Назва" Type="char" MaxLength="50" Nullable="false" />
+          <Property Name="Характеристика" Type="text" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Відгуки п__Покуп__58D1301D">
+          <End Role="Список замовлень" Type="Self.Список замовлень" Multiplicity="1" />
+          <End Role="Відгуки про пиво" Type="Self.Відгуки про пиво" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Список замовлень">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Відгуки про пиво">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Відгуки пр__Пиво__57DD0BE4">
+          <End Role="Список замовлень" Type="Self.Список замовлень" Multiplicity="1" />
+          <End Role="Відгуки про пиво" Type="Self.Відгуки про пиво" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Список замовлень">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Відгуки про пиво">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Пиво__Тип пива__4C6B5938">
+          <End Role="Типи пива" Type="Self.Типи пива" Multiplicity="1" />
+          <End Role="Пиво" Type="Self.Пиво" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Типи пива">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Пиво">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Пивовар__Пиво__4F47C5E3">
+          <End Role="Пиво" Type="Self.Пиво" Multiplicity="1" />
+          <End Role="Пивовар" Type="Self.Пивовар" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Пиво">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Пивовар">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Список за__Покуп__55009F39">
+          <End Role="Покупці пива" Type="Self.Покупці пива" Multiplicity="1" />
+          <End Role="Список замовлень" Type="Self.Список замовлень" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Покупці пива">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Список замовлень">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Список зам__Пиво__540C7B00">
+          <End Role="Пивовар" Type="Self.Пивовар" Multiplicity="1" />
+          <End Role="Список замовлень" Type="Self.Список замовлень" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Пивовар">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Список замовлень">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="KraftBreweryModelStoreContainer">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Відгуки про пиво" EntityType="Self.Відгуки про пиво" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Пиво" EntityType="Self.Пиво" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Пивовар" EntityType="Self.Пивовар" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Покупці пива" EntityType="Self.Покупці пива" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Список замовлень" EntityType="Self.Список замовлень" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Типи пива" EntityType="Self.Типи пива" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Відгуки п__Покуп__58D1301D" Association="Self.FK__Відгуки п__Покуп__58D1301D">
+            <End Role="Список замовлень" EntitySet="Список замовлень" />
+            <End Role="Відгуки про пиво" EntitySet="Відгуки про пиво" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Відгуки пр__Пиво__57DD0BE4" Association="Self.FK__Відгуки пр__Пиво__57DD0BE4">
+            <End Role="Список замовлень" EntitySet="Список замовлень" />
+            <End Role="Відгуки про пиво" EntitySet="Відгуки про пиво" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Пиво__Тип пива__4C6B5938" Association="Self.FK__Пиво__Тип пива__4C6B5938">
+            <End Role="Типи пива" EntitySet="Типи пива" />
+            <End Role="Пиво" EntitySet="Пиво" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Пивовар__Пиво__4F47C5E3" Association="Self.FK__Пивовар__Пиво__4F47C5E3">
+            <End Role="Пиво" EntitySet="Пиво" />
+            <End Role="Пивовар" EntitySet="Пивовар" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Список за__Покуп__55009F39" Association="Self.FK__Список за__Покуп__55009F39">
+            <End Role="Покупці пива" EntitySet="Покупці пива" />
+            <End Role="Список замовлень" EntitySet="Список замовлень" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Список зам__Пиво__540C7B00" Association="Self.FK__Список зам__Пиво__540C7B00">
+            <End Role="Пивовар" EntitySet="Пивовар" />
+            <End Role="Список замовлень" EntitySet="Список замовлень" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="KraftBreweryModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Відгуки_про_пиво">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Пиво" Type="String" MaxLength="50" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Відгук" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Покупець" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Список_замовлень" Relationship="Self.FK__Відгуки_п__Покуп__58D1301D" FromRole="Відгуки_про_пиво" ToRole="Список_замовлень" />
+          <NavigationProperty Name="Список_замовлень1" Relationship="Self.FK__Відгуки_пр__Пиво__57DD0BE4" FromRole="Відгуки_про_пиво" ToRole="Список_замовлень" />
+        </EntityType>
+        <EntityType Name="Пиво">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Вміст_алкоголю" Type="Double" Nullable="false" />
+          <Property Name="IPA" Type="Int32" Nullable="false" />
+          <Property Name="Тип_пива" Type="String" MaxLength="50" FixedLength="true" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Типи_пива" Relationship="Self.FK__Пиво__Тип_пива__4C6B5938" FromRole="Пиво" ToRole="Типи_пива" />
+          <NavigationProperty Name="Пивовар" Relationship="Self.FK__Пивовар__Пиво__4F47C5E3" FromRole="Пиво" ToRole="Пивовар" />
+        </EntityType>
+        <EntityType Name="Пивовар">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Псевдонім" Type="String" MaxLength="20" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Дата_народження" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Роки_досвіду" Type="Byte" Nullable="false" />
+          <Property Name="Пиво" Type="String" MaxLength="50" FixedLength="true" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Пиво1" Relationship="Self.FK__Пивовар__Пиво__4F47C5E3" FromRole="Пивовар" ToRole="Пиво" />
+          <NavigationProperty Name="Список_замовлень" Relationship="Self.FK__Список_зам__Пиво__540C7B00" FromRole="Пивовар" ToRole="Список_замовлень" />
+        </EntityType>
+        <EntityType Name="Покупці_пива">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Назва_компанії" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Місто" Type="String" MaxLength="20" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Контактні_дані" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Список_замовлень" Relationship="Self.FK__Список_за__Покуп__55009F39" FromRole="Покупці_пива" ToRole="Список_замовлень" />
+        </EntityType>
+        <EntityType Name="Список_замовлень">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Пиво" Type="String" MaxLength="50" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Покупець" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="Ціна" Type="Double" Nullable="false" />
+          <Property Name="Кількість" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Відгуки_про_пиво" Relationship="Self.FK__Відгуки_п__Покуп__58D1301D" FromRole="Список_замовлень" ToRole="Відгуки_про_пиво" />
+          <NavigationProperty Name="Відгуки_про_пиво1" Relationship="Self.FK__Відгуки_пр__Пиво__57DD0BE4" FromRole="Список_замовлень" ToRole="Відгуки_про_пиво" />
+          <NavigationProperty Name="Пивовар" Relationship="Self.FK__Список_зам__Пиво__540C7B00" FromRole="Список_замовлень" ToRole="Пивовар" />
+          <NavigationProperty Name="Покупці_пива" Relationship="Self.FK__Список_за__Покуп__55009F39" FromRole="Список_замовлень" ToRole="Покупці_пива" />
+        </EntityType>
+        <EntityType Name="Типи_пива">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Назва" Type="String" MaxLength="50" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Характеристика" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Пиво" Relationship="Self.FK__Пиво__Тип_пива__4C6B5938" FromRole="Типи_пива" ToRole="Пиво" />
+        </EntityType>
+        <Association Name="FK__Відгуки_п__Покуп__58D1301D">
+          <End Role="Список_замовлень" Type="Self.Список_замовлень" Multiplicity="1" />
+          <End Role="Відгуки_про_пиво" Type="Self.Відгуки_про_пиво" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Список_замовлень">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Відгуки_про_пиво">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Відгуки_пр__Пиво__57DD0BE4">
+          <End Role="Список_замовлень" Type="Self.Список_замовлень" Multiplicity="1" />
+          <End Role="Відгуки_про_пиво" Type="Self.Відгуки_про_пиво" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Список_замовлень">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Відгуки_про_пиво">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Пиво__Тип_пива__4C6B5938">
+          <End Role="Типи_пива" Type="Self.Типи_пива" Multiplicity="1" />
+          <End Role="Пиво" Type="Self.Пиво" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Типи_пива">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Пиво">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Пивовар__Пиво__4F47C5E3">
+          <End Role="Пиво" Type="Self.Пиво" Multiplicity="1" />
+          <End Role="Пивовар" Type="Self.Пивовар" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Пиво">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Пивовар">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Список_зам__Пиво__540C7B00">
+          <End Role="Пивовар" Type="Self.Пивовар" Multiplicity="1" />
+          <End Role="Список_замовлень" Type="Self.Список_замовлень" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Пивовар">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Список_замовлень">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Список_за__Покуп__55009F39">
+          <End Role="Покупці_пива" Type="Self.Покупці_пива" Multiplicity="1" />
+          <End Role="Список_замовлень" Type="Self.Список_замовлень" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Покупці_пива">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Список_замовлень">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="KraftBreweryEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="Відгуки_про_пиво" EntityType="Self.Відгуки_про_пиво" />
+          <EntitySet Name="Пиво" EntityType="Self.Пиво" />
+          <EntitySet Name="Пивовар" EntityType="Self.Пивовар" />
+          <EntitySet Name="Покупці_пива" EntityType="Self.Покупці_пива" />
+          <EntitySet Name="Список_замовлень" EntityType="Self.Список_замовлень" />
+          <EntitySet Name="Типи_пива" EntityType="Self.Типи_пива" />
+          <AssociationSet Name="FK__Відгуки_п__Покуп__58D1301D" Association="Self.FK__Відгуки_п__Покуп__58D1301D">
+            <End Role="Список_замовлень" EntitySet="Список_замовлень" />
+            <End Role="Відгуки_про_пиво" EntitySet="Відгуки_про_пиво" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Відгуки_пр__Пиво__57DD0BE4" Association="Self.FK__Відгуки_пр__Пиво__57DD0BE4">
+            <End Role="Список_замовлень" EntitySet="Список_замовлень" />
+            <End Role="Відгуки_про_пиво" EntitySet="Відгуки_про_пиво" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Пиво__Тип_пива__4C6B5938" Association="Self.FK__Пиво__Тип_пива__4C6B5938">
+            <End Role="Типи_пива" EntitySet="Типи_пива" />
+            <End Role="Пиво" EntitySet="Пиво" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Пивовар__Пиво__4F47C5E3" Association="Self.FK__Пивовар__Пиво__4F47C5E3">
+            <End Role="Пиво" EntitySet="Пиво" />
+            <End Role="Пивовар" EntitySet="Пивовар" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Список_зам__Пиво__540C7B00" Association="Self.FK__Список_зам__Пиво__540C7B00">
+            <End Role="Пивовар" EntitySet="Пивовар" />
+            <End Role="Список_замовлень" EntitySet="Список_замовлень" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Список_за__Покуп__55009F39" Association="Self.FK__Список_за__Покуп__55009F39">
+            <End Role="Покупці_пива" EntitySet="Покупці_пива" />
+            <End Role="Список_замовлень" EntitySet="Список_замовлень" />
+          </AssociationSet>
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(KraftBreweryModel.sp_helpdiagramdefinition_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(KraftBreweryModel.sp_helpdiagrams_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
+        </EntityContainer>
+        <ComplexType Name="sp_helpdiagramdefinition_Result">
+          <Property Type="Int32" Name="version" Nullable="true" />
+          <Property Type="Binary" Name="definition" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagrams_Result">
+          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="KraftBreweryModelStoreContainer" CdmEntityContainer="KraftBreweryEntities">
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="KraftBreweryModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Відгуки_про_пиво">
+            <EntityTypeMapping TypeName="KraftBreweryModel.Відгуки_про_пиво">
+              <MappingFragment StoreEntitySet="Відгуки про пиво">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Пиво" ColumnName="Пиво" />
+                <ScalarProperty Name="Відгук" ColumnName="Відгук" />
+                <ScalarProperty Name="Покупець" ColumnName="Покупець" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Пиво">
+            <EntityTypeMapping TypeName="KraftBreweryModel.Пиво">
+              <MappingFragment StoreEntitySet="Пиво">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Вміст_алкоголю" ColumnName="Вміст алкоголю" />
+                <ScalarProperty Name="IPA" ColumnName="IPA" />
+                <ScalarProperty Name="Тип_пива" ColumnName="Тип пива" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Пивовар">
+            <EntityTypeMapping TypeName="KraftBreweryModel.Пивовар">
+              <MappingFragment StoreEntitySet="Пивовар">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Псевдонім" ColumnName="Псевдонім" />
+                <ScalarProperty Name="Дата_народження" ColumnName="Дата народження" />
+                <ScalarProperty Name="Роки_досвіду" ColumnName="Роки досвіду" />
+                <ScalarProperty Name="Пиво" ColumnName="Пиво" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Покупці_пива">
+            <EntityTypeMapping TypeName="KraftBreweryModel.Покупці_пива">
+              <MappingFragment StoreEntitySet="Покупці пива">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Назва_компанії" ColumnName="Назва компанії" />
+                <ScalarProperty Name="Місто" ColumnName="Місто" />
+                <ScalarProperty Name="Контактні_дані" ColumnName="Контактні дані" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Список_замовлень">
+            <EntityTypeMapping TypeName="KraftBreweryModel.Список_замовлень">
+              <MappingFragment StoreEntitySet="Список замовлень">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Пиво" ColumnName="Пиво" />
+                <ScalarProperty Name="Покупець" ColumnName="Покупець" />
+                <ScalarProperty Name="Ціна" ColumnName="Ціна" />
+                <ScalarProperty Name="Кількість" ColumnName="Кількість" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Типи_пива">
+            <EntityTypeMapping TypeName="KraftBreweryModel.Типи_пива">
+              <MappingFragment StoreEntitySet="Типи пива">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Назва" ColumnName="Назва" />
+                <ScalarProperty Name="Характеристика" ColumnName="Характеристика" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="KraftBreweryModel.Store.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="KraftBreweryModel.Store.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="KraftBreweryModel.Store.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="KraftBreweryModel.Store.sp_helpdiagramdefinition">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="KraftBreweryModel.sp_helpdiagramdefinition_Result">
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="KraftBreweryModel.Store.sp_helpdiagrams">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="KraftBreweryModel.sp_helpdiagrams_Result">
+                <ScalarProperty Name="Database" ColumnName="Database" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="KraftBreweryModel.Store.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="KraftBreweryModel.Store.sp_upgraddiagrams" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

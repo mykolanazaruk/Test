@@ -4,12 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConsoleApp1
+namespace ConsoleApp3.DataModel
 {
-    class Program
+    class BeerContext
     {
-        static void Main(string[] args)
-        {
-        }
     }
 }
